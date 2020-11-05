@@ -11,6 +11,18 @@ Globals:
     Timeout: 3
 
 Resources:
+  MultiResourceFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: multi_source/
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Events:
+        HelloWorld:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /hmulti
+            Method: any
   HelloWorldFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
@@ -40,7 +52,7 @@ Resources:
           databaseHost: "Value2"
       Layers:
 
-       - !Ref MyLayer
+        - !Ref MyLayer
       Events:
         HelloWorld:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -71,6 +83,9 @@ Outputs:
   HelloWorldFunction:
     Description: "Hello World Lambda Function ARN"
     Value: !GetAtt HelloWorldFunction.Arn
+  MultiResourceFunction:
+    Description: "multi source function"
+    Value: !GetAtt MultiResourceFunction.Arn
   MyLayer:
     Description: "test layer arn"
     Value: !GetAtt MyLayer.Arn
